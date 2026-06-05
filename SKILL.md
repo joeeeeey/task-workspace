@@ -1,137 +1,134 @@
 ---
 name: agent-harness
 description: >-
-  Repository-level task harness for AI coding agents. Use this skill whenever a
-  user wants to initialize persistent task memory for a repo, start a durable
-  engineering task, continue a long-running goal, hand off work between Codex or
-  Claude sessions, prevent context drift, or keep weeks of agent conversation
-  grounded in stable repo-local state. This skill treats the repository root as
-  the execution workspace and stores per-goal memory under `.agent-harness/`.
+  Repository task harness for AI coding agents. Use this skill whenever a user
+  wants to capture repo context into a durable task workspace, start a long
+  running goal from an existing repo, migrate brainstorming or partial work into
+  a dedicated Codex/Claude session, create task-local AGENTS/CLAUDE instructions,
+  hand off work, prevent context drift, or run parallel tasks through isolated
+  /tmp repository clones. This skill bootstraps from the source repo, launches
+  follow-up agents from `.agent-harness/tasks/<task-id>/`, and keeps code
+  changes in a separate /tmp clone.
 ---
 
 # Agent Harness
 
-Use this skill to give a repository stable, repo-local task memory for long-running AI coding work.
+Use this skill to turn early repo exploration into a dedicated task workspace for long-running AI coding work.
 
-The key design rule is:
+The model has three locations:
 
-- Repository root = execution workspace where code edits, commands, tests, and git operations happen.
-- `.agent-harness/tasks/<task-id>/` = task memory record for one goal.
+```text
+source repo root        user exploration / bootstrap / context capture
+task workspace          .agent-harness/tasks/<task-id>/, new agent cwd
+/tmp worktree clone     actual code edits, commands, tests, git commits
+```
 
-Do not `cd` into the task memory directory to run project commands. Always run project commands from the repository root.
+This intentionally mirrors a human handoff:
+
+1. Explore in the source repo.
+2. Capture the goal, decisions, artifacts, branch, status, and optional patch.
+3. Start a fresh task-owned agent session from the task workspace.
+4. Let that session prepare a /tmp clone and implement there.
 
 ## When To Use
 
 Use this skill when the user asks to:
 
 - initialize a repo for persistent AI agent work,
-- start a durable task or goal in a repo,
-- continue a task across a long conversation,
-- hand off work between sessions,
-- keep memory stable over many turns,
-- manage multiple independent goals in one repository,
-- or create a repo-level task state without creating a separate workspace clone.
+- convert brainstorming or requirements into a durable task,
+- start a long-running feature, bug, refactor, migration, or design task,
+- preserve context after many turns of exploration,
+- hand off to a fresh Codex or Claude session,
+- run multiple goals in parallel through separate task workspaces and /tmp clones,
+- or avoid contaminating the source repo while the task agent works.
 
 Do not use this skill for tiny one-off answers that do not need durable memory.
 
-## Core Model
+## Core Layout
 
 ```text
-repo-root/
+source-repo/
   src/
   package.json
   AGENTS.md
-  CLAUDE.md
   .agent-harness/
     config.yaml
     repo-profile.md
     current
     tasks/
-      task-20260605-example/
+      task-20260605-fix-checkout/
+        AGENTS.md
+        CLAUDE.md
         goal.md
+        context.md
         status.md
         decisions.md
         open-questions.md
-        repo-context.md
-        owner.json
-        handoff.md
-```
+        source-repo.md
+        worktree.md
+        launch-prompt.md
+        task.json
+        artifacts/
 
-One repository can have multiple tasks. One running session should own only one active task at a time.
+/tmp/agent-harness/task-20260605-fix-checkout/source-repo/
+  actual code edits happen here
+```
 
 ## Operating Rules
 
-1. Before substantial work, check whether `.agent-harness/` exists.
-2. If missing and the user wants durable work, initialize it with:
+1. Bootstrap from the source repo root after exploration, requirements work, or partial investigation.
+2. Initialize repo profile if needed:
 
    ```bash
    python3 /path/to/agent-harness/scripts/harness.py --repo . init
    ```
 
-3. Start a task with:
+   `init` also ensures `.agent-harness/` is ignored in the source repo by default.
+
+3. Start a task workspace:
 
    ```bash
    python3 /path/to/agent-harness/scripts/harness.py --repo . start \
      --title "Fix flaky checkout tests" \
-     --brief "Make the checkout flow stable"
+     --brief "Make the checkout flow stable" \
+     --capture-patch
    ```
 
-4. Read the generated task files before implementation:
-   - `.agent-harness/repo-profile.md`
-   - `.agent-harness/tasks/<task-id>/goal.md`
-   - `.agent-harness/tasks/<task-id>/status.md`
-   - `.agent-harness/tasks/<task-id>/decisions.md`
-   - `.agent-harness/tasks/<task-id>/open-questions.md`
-   - `.agent-harness/tasks/<task-id>/repo-context.md`
+4. If launch succeeds, the bootstrap session should stop after the final handoff reply unless the user explicitly asks it to continue.
+5. The new session should start with task workspace as cwd and read `launch-prompt.md`.
+6. The task session prepares the /tmp clone:
 
-5. After meaningful progress, update:
-   - `status.md`
-   - `decisions.md` when a decision was made
-   - `open-questions.md` when uncertainty changes
+   ```bash
+   python3 /path/to/agent-harness/scripts/harness.py clone --task-dir .
+   ```
 
-6. If the user asks for handoff, generate or use `handoff.md`. After a successful handoff to another session, the old session should stop executing that task unless the user explicitly asks it to continue.
-
-## First-Time Repo Initialization
-
-Initialization should infer a repo profile from stable local files, including:
-
-- `README.md`
-- `AGENTS.md`
-- `CLAUDE.md`
-- package or build files such as `package.json`, `Makefile`, `pyproject.toml`, `go.mod`, `Cargo.toml`
-- docs under `docs/` when present
-
-The profile should summarize:
-
-- product or project purpose,
-- stack and package manager,
-- common commands,
-- agent rules,
-- testing expectations,
-- important docs,
-- safety boundaries.
+7. The task session edits code and runs commands inside the /tmp clone, not inside the source repo root or task workspace.
+8. After meaningful progress, update `status.md`; update `decisions.md` and `open-questions.md` when needed.
 
 ## Multiple Goals
 
-Use separate task records for separate goals.
+Use separate task workspaces and separate /tmp clones for separate goals.
 
 Good:
 
 ```text
 .agent-harness/tasks/task-20260605-auth-refactor/
 .agent-harness/tasks/task-20260605-fix-ci/
+/tmp/agent-harness/task-20260605-auth-refactor/repo/
+/tmp/agent-harness/task-20260605-fix-ci/repo/
 ```
 
-Avoid making one session actively implement both at the same time. If parallel work is needed, assign a separate session to each task and keep each task's `owner.json` current.
+Merge conflicts are handled later like normal parallel branches.
 
 ## Final Reply Shape
 
-When initializing or starting a task, tell the user:
+When starting a task, tell the user:
 
-- repo root,
-- task id,
-- task memory path,
-- whether the current session will continue or hand off,
-- next command or next file to inspect.
+- source repo root,
+- task workspace path,
+- /tmp clone target,
+- task branch,
+- launch command or whether launch already happened,
+- and whether the current session is stopping after handoff.
 
 Keep the response concise.

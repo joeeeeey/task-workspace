@@ -1,0 +1,27 @@
+# Source Repository Snapshot
+
+The user started from this source repository:
+
+```text
+{{ source_repo_root }}
+```
+
+## Git
+
+- Source branch: `{{ source_branch }}`
+- Remote URL: `{{ source_remote_url }}`
+- Task branch: `{{ task_branch }}`
+
+## Status At Bootstrap
+
+{{ source_status }}
+
+## Diff Stat At Bootstrap
+
+{{ source_diff_stat }}
+
+## Notes
+
+- Treat the source repo as context captured during bootstrap.
+- Do not edit source repo code from this task session.
+- Use the /tmp worktree clone for implementation.

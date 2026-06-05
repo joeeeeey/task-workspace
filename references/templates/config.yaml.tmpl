@@ -1,20 +1,22 @@
-version: 1
-workspace_mode: repo-root
-execution_root: "."
+version: 2
+workspace_mode: task-workspace
+source_repo_root: "{{ source_repo_root }}"
 task_state_root: ".agent-harness/tasks"
 current_task_file: ".agent-harness/current"
+tmp_root: "{{ tmp_root }}"
 default_launcher: none
 single_owner_per_task: true
 
 repo:
   name: "{{ repo_name }}"
-  root: "{{ repo_root }}"
+  remote_url: "{{ remote_url }}"
   detected_stack:
 {{ detected_stack_yaml }}
   default_commands:
 {{ commands_yaml }}
 
 notes:
-  - "Run project commands from the repository root, not from task state directories."
-  - "Task records store memory only; source code stays in the repository workspace."
+  - "Bootstrap from the source repo root."
+  - "Launch the follow-up agent from the task workspace under .agent-harness/tasks/<task-id>."
+  - "Code edits happen in the /tmp worktree clone, not in the source repo root and not in the task workspace."
 

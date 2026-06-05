@@ -1,0 +1,44 @@
+# Agent Harness Task Instructions For Claude
+
+You are working inside a dedicated Agent Harness task workspace.
+
+## Start Here
+
+Read these files first:
+
+- `AGENTS.md`
+- `goal.md`
+- `context.md`
+- `status.md`
+- `decisions.md`
+- `open-questions.md`
+- `source-repo.md`
+- `worktree.md`
+
+## Critical Rule
+
+The source repo is context only:
+
+```text
+{{ source_repo_root }}
+```
+
+Do not edit source repo files directly. Prepare and use the /tmp worktree clone:
+
+```bash
+{{ clone_command }}
+```
+
+Then run commands and edit code in:
+
+```text
+{{ worktree_repo }}
+```
+
+## Progress Discipline
+
+- Continue from `status.md`.
+- Update `status.md` after meaningful progress.
+- Update `decisions.md` when a decision is made.
+- Update `open-questions.md` when uncertainty changes.
+- Do not store secrets in this task workspace.

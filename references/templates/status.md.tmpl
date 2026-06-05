@@ -4,20 +4,34 @@ Updated: {{ created_at }}
 
 ## Current State
 
-- Task created.
-- Execution workspace is the repository root: `{{ repo_root }}`.
-- Task memory path: `{{ task_dir_rel }}`.
+- Task workspace created.
+- Source repo context captured.
+- Task-local `AGENTS.md` and `CLAUDE.md` created.
+- /tmp worktree target planned: `{{ worktree_repo }}`
 
 ## Completed
 
-- Initialized task record.
+- Initialized task workspace at `{{ task_dir }}`.
+- Captured source repo branch/status/diff summary.
+- Captured explicit artifacts:
+
+{{ artifact_block }}
+
+- Captured patch artifacts:
+
+{{ patch_block }}
 
 ## Next Steps
 
-1. Read `.agent-harness/repo-profile.md`.
-2. Read this task's `goal.md`, `repo-context.md`, `decisions.md`, and `open-questions.md`.
-3. Inspect the repo files relevant to the goal.
-4. Implement from the repository root.
+1. Read `AGENTS.md`, `CLAUDE.md`, `goal.md`, `context.md`, `source-repo.md`, and `worktree.md`.
+2. Prepare the /tmp code clone:
+
+   ```bash
+   {{ clone_command }}
+   ```
+
+3. Work from the /tmp clone, not from this task workspace and not from the source repo root.
+4. Update this `status.md` after meaningful progress.
 
 ## Blockers
 

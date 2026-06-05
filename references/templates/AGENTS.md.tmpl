@@ -1,0 +1,33 @@
+# Agent Harness Task Instructions
+
+This directory is a dedicated task workspace. It is intentionally separate from the source repository root.
+
+## Identity
+
+- Task: {{ title }}
+- Task ID: `{{ task_id }}`
+- Source repo: `{{ source_repo_root }}`
+- Source branch: `{{ source_branch }}`
+- Task branch: `{{ task_branch }}`
+- /tmp worktree clone: `{{ worktree_repo }}`
+
+## Operating Rules
+
+- Read `goal.md`, `context.md`, `status.md`, `decisions.md`, `open-questions.md`, `source-repo.md`, and `worktree.md` before implementation.
+- Do not edit code in the source repo root.
+- Do not edit code inside this task workspace.
+- Prepare and use the /tmp worktree clone:
+
+  ```bash
+  {{ clone_command }}
+  ```
+
+- Run project commands from the /tmp clone.
+- Keep `status.md` current after meaningful progress.
+- Record durable decisions in `decisions.md`.
+- Record unresolved questions in `open-questions.md`.
+- Do not store secrets, decrypted env files, private keys, tokens, kubeconfigs, or credentials in this task workspace.
+
+## Handoff Ownership
+
+If this task was launched from another session, this session is now the execution owner. The bootstrap session should stop after handoff unless the user explicitly asks for parallel work.

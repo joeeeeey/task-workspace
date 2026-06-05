@@ -2,27 +2,43 @@
 
 Task: {{ title }}
 Created: {{ created_at }}
-Repo root: `{{ repo_root }}`
 
 ## User Request
 
 {{ brief }}
 
-## Scope
+## Source Repo
 
-- Capture and execute this goal from the repository root.
-- Keep task state under `{{ task_dir_rel }}`.
-- Update status and decisions after meaningful progress.
+- Source root: `{{ source_repo_root }}`
+- Source branch: `{{ source_branch }}`
+- Remote URL: `{{ source_remote_url }}`
 
-## Non-Goals
+## Task Workspace
 
-- Do not create a separate repository workspace unless the user explicitly asks.
-- Do not run destructive commands without explicit approval.
-- Do not store secrets in task state.
+This directory is the task workspace:
+
+```text
+{{ task_dir }}
+```
+
+## Code Worktree
+
+Code edits should happen in the /tmp worktree clone:
+
+```text
+{{ worktree_repo }}
+```
+
+Prepare it with:
+
+```bash
+{{ clone_command }}
+```
 
 ## Acceptance Criteria
 
 - The requested goal is completed or a clear blocker is recorded.
+- Code changes, if any, happen in the /tmp worktree clone.
 - Relevant commands/tests are run or explicitly marked as not run.
 - `status.md` reflects the final state.
 

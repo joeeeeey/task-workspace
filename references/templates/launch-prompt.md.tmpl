@@ -1,0 +1,30 @@
+You are continuing an Agent Harness task from a dedicated task workspace.
+
+Task:
+{{ title }}
+
+Task workspace:
+{{ task_dir }}
+
+Source repository:
+{{ source_repo_root }}
+
+Planned /tmp worktree clone:
+{{ worktree_repo }}
+
+Instructions:
+
+1. Treat this task workspace as your session root and durable memory.
+2. Read `AGENTS.md`, `CLAUDE.md`, `goal.md`, `context.md`, `status.md`, `decisions.md`, `open-questions.md`, `source-repo.md`, and `worktree.md`.
+3. Do not edit code in the source repository root.
+4. Prepare the /tmp code clone with:
+
+   ```bash
+   {{ clone_command }}
+   ```
+
+5. Run project commands and edit code inside the /tmp clone.
+6. Continue from `status.md`; do not restart from scratch.
+7. After meaningful progress, update `status.md`; update `decisions.md` and `open-questions.md` when needed.
+8. Keep this session scoped to this task unless the user explicitly asks otherwise.
+9. Do not store secrets in this task workspace.
