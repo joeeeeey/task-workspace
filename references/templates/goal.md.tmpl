@@ -1,0 +1,28 @@
+# Goal
+
+Task: {{ title }}
+Created: {{ created_at }}
+Repo root: `{{ repo_root }}`
+
+## User Request
+
+{{ brief }}
+
+## Scope
+
+- Capture and execute this goal from the repository root.
+- Keep task state under `{{ task_dir_rel }}`.
+- Update status and decisions after meaningful progress.
+
+## Non-Goals
+
+- Do not create a separate repository workspace unless the user explicitly asks.
+- Do not run destructive commands without explicit approval.
+- Do not store secrets in task state.
+
+## Acceptance Criteria
+
+- The requested goal is completed or a clear blocker is recorded.
+- Relevant commands/tests are run or explicitly marked as not run.
+- `status.md` reflects the final state.
+

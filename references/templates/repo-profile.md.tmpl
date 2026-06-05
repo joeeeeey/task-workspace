@@ -1,0 +1,38 @@
+# Agent Harness Repo Profile
+
+Generated: {{ created_at }}
+
+## Repository
+
+- Name: `{{ repo_name }}`
+- Root: `{{ repo_root }}`
+- Git branch: `{{ git_branch }}`
+- Workspace mode: repo root is the execution workspace.
+
+## Purpose
+
+{{ purpose }}
+
+## Detected Stack
+
+{{ detected_stack_bullets }}
+
+## Default Commands
+
+{{ commands_bullets }}
+
+## Existing Agent Guidance
+
+{{ agent_guidance }}
+
+## Important Documents
+
+{{ important_docs }}
+
+## Safety Boundaries
+
+- Do not store secrets, private keys, tokens, decrypted env files, kubeconfigs, or credentials in `.agent-harness/`.
+- Do not overwrite unrelated user changes.
+- Treat `.agent-harness/tasks/<task-id>/` as memory only; run repo commands from the repo root.
+- Keep each running session scoped to one active task unless the user explicitly asks otherwise.
+

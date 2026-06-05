@@ -1,0 +1,4 @@
+name: agent-harness
+short_description: Repository-level persistent task memory for long-running AI coding work.
+default_prompt: Initialize or use Agent Harness in the current repository, keep execution in the repo root, and persist task state under .agent-harness/tasks.
+
