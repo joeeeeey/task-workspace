@@ -1,8 +1,8 @@
 version: 2
 workspace_mode: task-workspace
 source_repo_root: "{{ source_repo_root }}"
-task_state_root: ".agent-harness/tasks"
-current_task_file: ".agent-harness/current"
+task_state_root: ".task-workspace/tasks"
+current_task_file: ".task-workspace/current"
 tmp_root: "{{ tmp_root }}"
 default_launcher: none
 single_owner_per_task: true
@@ -17,6 +17,5 @@ repo:
 
 notes:
   - "Bootstrap from the source repo root."
-  - "Launch the follow-up agent from the task workspace under .agent-harness/tasks/<task-id>."
-  - "Code edits happen in the /tmp worktree clone, not in the source repo root and not in the task workspace."
-
+  - "Launch the follow-up agent from the task workspace under .task-workspace/tasks/<task-id>."
+  - "Code edits happen in the /tmp code workspace, not in the source repo root and not in the task workspace."

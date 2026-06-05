@@ -1,3 +1,3 @@
-name: agent-harness
-short_description: Dedicated task workspaces plus /tmp clones for long-running AI coding work.
-default_prompt: Use Agent Harness to capture source repo context into a dedicated task workspace, then launch or hand off to a session that works from the task workspace and prepares an isolated /tmp repo clone.
+name: task-workspace
+short_description: Dedicated task workspaces plus /tmp code workspaces for long-running AI coding work.
+default_prompt: Use Task Workspace to capture source repo context into a dedicated task workspace, then launch or hand off to a session that works from the task workspace and prepares an isolated /tmp repo worktree.

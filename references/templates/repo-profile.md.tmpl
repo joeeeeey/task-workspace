@@ -1,4 +1,4 @@
-# Agent Harness Source Repo Profile
+# Task Workspace Source Repo Profile
 
 Generated: {{ created_at }}
 
@@ -8,7 +8,7 @@ Generated: {{ created_at }}
 - Source root: `{{ source_repo_root }}`
 - Git branch: `{{ git_branch }}`
 - Remote URL: `{{ remote_url }}`
-- Workspace mode: source repo bootstrap -> task workspace -> /tmp code clone.
+- Workspace mode: source repo bootstrap -> task workspace -> /tmp code workspace.
 
 ## Purpose
 
@@ -32,8 +32,7 @@ Generated: {{ created_at }}
 
 ## Safety Boundaries
 
-- Do not store secrets, private keys, tokens, decrypted env files, kubeconfigs, or credentials in `.agent-harness/`.
+- Do not store secrets, private keys, tokens, decrypted env files, kubeconfigs, or credentials in `.task-workspace/`.
 - Do not edit source repo code from a task workspace.
-- Task sessions should prepare and edit the /tmp worktree clone recorded in `task.json`.
+- Task sessions should prepare and edit the /tmp code workspace recorded in `local.json`.
 - Keep each running session scoped to one active task unless the user explicitly asks otherwise.
-

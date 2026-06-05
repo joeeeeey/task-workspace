@@ -21,9 +21,9 @@ This directory is the task workspace:
 {{ task_dir }}
 ```
 
-## Code Worktree
+## Code Workspace
 
-Code edits should happen in the /tmp worktree clone:
+Code edits should happen in the /tmp code workspace:
 
 ```text
 {{ worktree_repo }}
@@ -32,13 +32,12 @@ Code edits should happen in the /tmp worktree clone:
 Prepare it with:
 
 ```bash
-{{ clone_command }}
+{{ prepare_command }}
 ```
 
 ## Acceptance Criteria
 
 - The requested goal is completed or a clear blocker is recorded.
-- Code changes, if any, happen in the /tmp worktree clone.
+- Code changes, if any, happen in the /tmp code workspace.
 - Relevant commands/tests are run or explicitly marked as not run.
 - `status.md` reflects the final state.
-

@@ -1,4 +1,4 @@
-# Agent Harness Task Instructions
+# Task Workspace Task Instructions
 
 This directory is a dedicated task workspace. It is intentionally separate from the source repository root.
 
@@ -9,20 +9,20 @@ This directory is a dedicated task workspace. It is intentionally separate from 
 - Source repo: `{{ source_repo_root }}`
 - Source branch: `{{ source_branch }}`
 - Task branch: `{{ task_branch }}`
-- /tmp worktree clone: `{{ worktree_repo }}`
+- /tmp code workspace: `{{ worktree_repo }}`
 
 ## Operating Rules
 
 - Read `goal.md`, `context.md`, `status.md`, `decisions.md`, `open-questions.md`, `source-repo.md`, and `worktree.md` before implementation.
 - Do not edit code in the source repo root.
 - Do not edit code inside this task workspace.
-- Prepare and use the /tmp worktree clone:
+- Prepare and use the /tmp code workspace:
 
   ```bash
-  {{ clone_command }}
+  {{ prepare_command }}
   ```
 
-- Run project commands from the /tmp clone.
+- Run project commands from the /tmp code workspace.
 - Keep `status.md` current after meaningful progress.
 - Record durable decisions in `decisions.md`.
 - Record unresolved questions in `open-questions.md`.

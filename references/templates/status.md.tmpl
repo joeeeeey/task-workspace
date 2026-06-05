@@ -7,7 +7,7 @@ Updated: {{ created_at }}
 - Task workspace created.
 - Source repo context captured.
 - Task-local `AGENTS.md` and `CLAUDE.md` created.
-- /tmp worktree target planned: `{{ worktree_repo }}`
+- /tmp code workspace target planned: `{{ worktree_repo }}`
 
 ## Completed
 
@@ -24,16 +24,15 @@ Updated: {{ created_at }}
 ## Next Steps
 
 1. Read `AGENTS.md`, `CLAUDE.md`, `goal.md`, `context.md`, `source-repo.md`, and `worktree.md`.
-2. Prepare the /tmp code clone:
+2. Prepare the /tmp code workspace:
 
    ```bash
-   {{ clone_command }}
+   {{ prepare_command }}
    ```
 
-3. Work from the /tmp clone, not from this task workspace and not from the source repo root.
+3. Work from the /tmp code workspace, not from this task workspace and not from the source repo root.
 4. Update this `status.md` after meaningful progress.
 
 ## Blockers
 
 - None recorded.
-
