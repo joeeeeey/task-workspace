@@ -107,3 +107,37 @@ handoff.md       = next session startup prompt
 
 这就是它能保持稳定的原因：模型可以忘，但任务文件不会忘。
 
+## 作为 AI Skill 安装
+
+这个 repo 的定位是一个 AI skill repo，可以直接用 `npx skills add` 加 GitHub 链接安装：
+
+```bash
+npx skills add 'https://github.com/joeeeeey/agent-harness.git' \
+  --global \
+  --agent '*' \
+  --yes
+```
+
+只安装给 Codex：
+
+```bash
+npx skills add 'https://github.com/joeeeeey/agent-harness.git' \
+  --global \
+  --agent codex \
+  --yes
+```
+
+只查看可安装 skill，不安装：
+
+```bash
+npx skills add 'https://github.com/joeeeeey/agent-harness.git' \
+  --list
+```
+
+这个 skill 就在 repo 根目录，所以不需要 `--full-depth`。
+
+安装后重启 agent runtime，让它重新加载 skill metadata。然后可以直接说：
+
+```text
+Use Agent Harness to initialize this repository for persistent task memory.
+```

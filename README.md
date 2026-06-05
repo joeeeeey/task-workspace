@@ -150,9 +150,36 @@ If the current session needs to hand off work:
 
 This avoids duplicate work and conflicting edits.
 
-## Public Skill Installation
+## Install As An AI Skill
 
-This repository is structured as a skill:
+This repository is an AI skill repo. Install it directly from GitHub with the `skills` CLI:
+
+```bash
+npx skills add 'https://github.com/joeeeeey/agent-harness.git' \
+  --global \
+  --agent '*' \
+  --yes
+```
+
+Install for Codex only:
+
+```bash
+npx skills add 'https://github.com/joeeeeey/agent-harness.git' \
+  --global \
+  --agent codex \
+  --yes
+```
+
+List the skill without installing:
+
+```bash
+npx skills add 'https://github.com/joeeeeey/agent-harness.git' \
+  --list
+```
+
+The skill lives at the repository root, so `--full-depth` is not required.
+
+Repository structure:
 
 ```text
 agent-harness/
@@ -162,7 +189,11 @@ agent-harness/
   references/templates/
 ```
 
-Install it with your preferred skill installer or copy it into your local skills directory.
+After installing, restart your agent runtime so it can load the new skill metadata. Then ask:
+
+```text
+Use Agent Harness to initialize this repository for persistent task memory.
+```
 
 ## Design Principles
 
@@ -172,4 +203,3 @@ Install it with your preferred skill installer or copy it into your local skills
 - Prefer stable external state over hidden chat memory.
 - Make handoff boring and deterministic.
 - Never store secrets in `.agent-harness/`.
-
